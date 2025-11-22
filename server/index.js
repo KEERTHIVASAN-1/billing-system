@@ -7,7 +7,7 @@ const ExcelJS = require('exceljs');
 
 
 const app = express();
-const PORT = 3005;
+const PORT = process.env.PORT || 3005;
 
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
@@ -440,4 +440,9 @@ doc.end();
 // ---------- Test ----------
 app.get('/', (req, res) => res.json({ status: 'Billing Server Running' }));
 
-app.listen(PORT, () => console.log(`✅ Billing server running on http://localhost:${PORT}`));
+
+
+app.listen(PORT, () => {
+  console.log(`✅ Billing server running on PORT ${PORT}`);
+});
+
