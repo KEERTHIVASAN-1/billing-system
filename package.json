@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "dev": "concurrently \"npm run dev --prefix frontend\" \"npm start --prefix server\""
+  "dev": "concurrently \"npm run dev --prefix frontend\" \"npm start --prefix server\"",
+  "start": "node server/index.js"
 },
 
   "keywords": [],
