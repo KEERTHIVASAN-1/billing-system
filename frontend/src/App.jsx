@@ -95,7 +95,7 @@ export default function App() {
       <header className="invoice-header">
   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
     <img
-      src="../public/egroots-logo.png"
+       src="/egroots-logo.png"
       alt="E-GROOTS Logo"
       style={{ width: "60px", height: "60px", objectFit: "contain" }}
     />
