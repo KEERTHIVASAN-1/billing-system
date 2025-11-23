@@ -93,20 +93,32 @@ export default function App() {
   return (
     <div className="invoice-container">
       <header className="invoice-header">
-        <h1 className="title">Billing Software <span className="brand">E-GROOTS</span></h1>
-        <div className="invoice-info">
-          <label>
-            <strong>Invoice No:</strong>
-            <input
-              type="text"
-              placeholder="Enter Invoice Number"
-              value={invoiceNo}
-              onChange={(e) => setInvoiceNo(e.target.value)}
-            />
-          </label>
-          <p><strong>Date:</strong> {date}</p>
-        </div>
-      </header>
+  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+    <img
+      src="/egroots-logo.png"
+      alt="E-GROOTS Logo"
+      style={{ width: "60px", height: "60px", objectFit: "contain" }}
+    />
+
+    <h1 className="title">
+      Billing Software <span className="brand">E-GROOTS</span>
+    </h1>
+  </div>
+
+  <div className="invoice-info">
+    <label>
+      <strong>Invoice No:</strong>
+      <input
+        type="text"
+        placeholder="Enter Invoice Number"
+        value={invoiceNo}
+        onChange={(e) => setInvoiceNo(e.target.value)}
+      />
+    </label>
+    <p><strong>Date:</strong> {date}</p>
+  </div>
+</header>
+
 
       <section className="customer-section">
         <h2>Customer Details</h2>
