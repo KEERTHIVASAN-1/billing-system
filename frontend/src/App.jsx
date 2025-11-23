@@ -95,7 +95,7 @@ export default function App() {
       <header className="invoice-header">
   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
     <img
-      src="/egroots-logo.png"
+      src="../public/egroots-logo.png"
       alt="E-GROOTS Logo"
       style={{ width: "60px", height: "60px", objectFit: "contain" }}
     />
@@ -118,6 +118,7 @@ export default function App() {
     <p><strong>Date:</strong> {date}</p>
   </div>
 </header>
+
 
 
       <section className="customer-section">
