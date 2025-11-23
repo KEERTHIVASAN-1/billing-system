@@ -233,7 +233,8 @@ app.post('/generate-bill', async (req, res) => {
   });
 
  // ---------- PDF CONTENT (with logo) ----------
-const logoPath = path.join(__dirname, 'uploads', 'kk.jpg'); // logo inside uploads folder
+const logoPath = path.join(__dirname, 'assets', 'kk.jpg');
+// logo inside assets folder
 
 // 🖼️ Draw logo if available, else show fallback text
 if (fs.existsSync(logoPath)) {
