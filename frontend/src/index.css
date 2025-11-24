@@ -1,4 +1,6 @@
-/* ===== CLEAN PREMIUM LOADER ===== */
+/* ===========================================
+   PREMIUM SHINE LOADER (Matches new index.html)
+=========================================== */
 
 #loader {
   position: fixed;
@@ -7,8 +9,8 @@
   justify-content: center;
   align-items: center;
   background: #ffffff;
-  z-index: 9999;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
+  z-index: 99999;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
 #loader.hidden {
@@ -16,69 +18,100 @@
   visibility: hidden;
 }
 
-.logo-wrapper {
+.loader-logo-wrapper {
+  position: relative;
+  width: 130px;
+  height: 130px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   animation: fadeIn 1.4s ease forwards;
   opacity: 0;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(18px); }
+  from { opacity: 0; transform: translateY(25px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .loader-logo {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
-  animation: softPulse 2s infinite ease-in-out;
+  animation: softPulse 2.4s infinite ease-in-out;
 }
 
 @keyframes softPulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.06); opacity: 0.85; }
+  0%   { transform: scale(1); opacity: 1; }
+  50%  { transform: scale(1.06); opacity: 0.85; }
   100% { transform: scale(1); opacity: 1; }
 }
 
-.loader-text {
-  margin-top: 12px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #4a3424;
-  opacity: 0.9;
+/* Shine Effect */
+.shine {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: skewX(-25deg);
+  animation: shineMove 2.2s ease-in-out infinite;
+}
+
+@keyframes shineMove {
+  0%   { left: -150%; }
+  60%  { left: 150%; }
+  100% { left: 150%; }
 }
 
 
-/* ===== PAGE ENTER ANIMATION (Smooth Not Fast) ===== */
+/* ===========================================
+   PAGE ENTER EFFECT
+=========================================== */
+
+#root {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+body.loaded #root {
+  opacity: 1;
+}
 
 .page-load-wrapper {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(25px);
   filter: blur(6px);
-  animation: pageEnter 1.5s ease-out forwards;
+  animation: pageEnter 1.4s ease-out forwards;
 }
 
 @keyframes pageEnter {
   0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(25px);
     filter: blur(6px);
   }
-  60% {
+  50% {
     opacity: 0.7;
     filter: blur(3px);
   }
   100% {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0px);
+    filter: blur(0);
   }
 }
 
 
-/* ===== PAGE STYLING ===== */
+/* ===========================================
+   PAGE STYLING (Untouched)
+=========================================== */
 
 body {
   margin: 0;
@@ -97,6 +130,12 @@ body {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   width: 900px;
   padding: 30px 40px;
+  animation: fadeInContent 1.2s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInContent {
+  to { opacity: 1; }
 }
 
 .title {
@@ -150,8 +189,6 @@ input {
   width: 100%;
 }
 
-/* ===== PRODUCT TABLE ===== */
-
 .product-table {
   width: 100%;
   border-collapse: collapse;
@@ -169,8 +206,6 @@ input {
   border-bottom: 1px solid #ddd;
   padding: 8px;
 }
-
-/* ===== BUTTONS ===== */
 
 .add-btn,
 .download-btn {
@@ -197,8 +232,6 @@ input {
   cursor: pointer;
 }
 
-/* ===== TOTAL ===== */
-
 h3 {
   text-align: right;
   font-size: 1.2em;
@@ -208,13 +241,4 @@ h3 {
 .footer {
   text-align: center;
   margin-top: 20px;
-}
-/* Hide React root until loader finishes */
-#root {
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-body.loaded #root {
-  opacity: 1;
 }

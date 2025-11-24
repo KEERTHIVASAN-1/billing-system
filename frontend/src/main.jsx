@@ -3,21 +3,21 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
 
-// React Root Mount
+// Mount React App
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
   </StrictMode>
 );
 
-// 🔥 Remove loader ONLY AFTER React is fully mounted
+// 🔥 Smooth loader removal after React mounts fully
 window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
   const root = document.getElementById("root");
 
-  // Fade out loader smoothly
+  // Wait to create elegant fade
   setTimeout(() => {
-    if (loader) loader.classList.add("hidden");
-    if (root) root.style.opacity = "1";
-  }, 500); // adjust slowdown here
+    if (loader) loader.classList.add("hidden"); // fades out via CSS
+    if (root) root.style.opacity = "1"; // fade-in React root
+  }, 1200); 
 });

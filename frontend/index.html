@@ -3,64 +3,38 @@
   <head>
     <meta charset="UTF-8" />
 
-    <!-- Your App Logo -->
-    <link rel="icon" href="/egroots-logo.png" />
+    <link rel="icon" href="/egroots-loader.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EGROOTS</title>
 
-    <!-- 🔥 Prevent page from appearing before loader -->
+    <!-- Prevent content flash -->
     <style>
-      html {
-        visibility: hidden;
-      }
+      html { visibility: hidden; }
     </style>
   </head>
 
   <body>
-
-    <!-- ================= LOADER ================= -->
+    <!-- PREMIUM SHINE LOADER -->
     <div id="loader">
-      <div class="logo-wrapper">
-        <img src="/egroots-logo.png" class="loader-logo" alt="EGROOTS" />
-        <div class="loader-text">E-GROOTS Billing System</div>
+      <div class="loader-logo-wrapper">
+        <img src="/egroots-loader.png" class="loader-logo" alt="EGROOTS" />
+        <div class="shine"></div>
       </div>
     </div>
-    <!-- =========================================== -->
 
-    <!-- React Root -->
-    <div id="root" style="opacity: 0;"></div>
+    <div id="root"></div>
 
-    <!-- Load React App -->
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- ================= LOADER CONTROL SCRIPT ================= -->
     <script>
-      // Show loader immediately (before React initializes)
-      document.addEventListener("DOMContentLoaded", () => {
-        const loader = document.getElementById("loader");
-        if (loader) loader.style.display = "flex";
-
-        // Hide root initially
-        const root = document.getElementById("root");
-        if (root) root.style.opacity = "0";
-      });
-
-      // Hide loader only after React fully loads
       window.addEventListener("load", () => {
-        // Make page visible only now
         document.documentElement.style.visibility = "visible";
 
         setTimeout(() => {
-          const loader = document.getElementById("loader");
-          const root = document.getElementById("root");
-
-          if (loader) loader.classList.add("hidden");
-          if (root) root.style.opacity = "1";
-        }, 500); // adjust speed here
+          document.getElementById("loader").classList.add("hidden");
+        }, 1400); // **Slow & Elegant**
       });
     </script>
-    <!-- ========================================================== -->
-
   </body>
 </html>
