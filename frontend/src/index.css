@@ -1,3 +1,5 @@
+
+
 /* ===== PREMIUM LOADER ===== */
 
 #loader {
@@ -189,4 +191,28 @@ h3 {
 .footer {
   text-align: center;
   margin-top: 20px;
+}
+/* === Professional Page Load Animation === */
+.page-load-wrapper {
+  opacity: 0;
+  transform: translateY(30px);
+  filter: blur(8px);
+  animation: pageEnter 1.4s ease-out forwards;
+}
+
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(8px);
+  }
+  40% {
+    opacity: 0.4;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+  }
 }
