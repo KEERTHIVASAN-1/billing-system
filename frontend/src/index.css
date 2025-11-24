@@ -61,7 +61,7 @@
     transparent
   );
   transform: skewX(-25deg);
-  animation: shineMove 2.2s ease-in-out infinite;
+  animation: shineMove 3.2s ease-in-out infinite;
 }
 
 @keyframes shineMove {
