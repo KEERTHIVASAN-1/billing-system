@@ -1,19 +1,23 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.jsx';
 
-// REMOVE PREMIUM LOADER AFTER REACT LOADS
-window.addEventListener("load", () => {
-  const loader = document.getElementById("loader");
-  if (loader) {
-    setTimeout(() => loader.classList.add("hidden"), 500);
-  }
-});
-
-
+// React Root Mount
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
-  </StrictMode>,
-)
+  </StrictMode>
+);
+
+// 🔥 Remove loader ONLY AFTER React is fully mounted
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loader");
+  const root = document.getElementById("root");
+
+  // Fade out loader smoothly
+  setTimeout(() => {
+    if (loader) loader.classList.add("hidden");
+    if (root) root.style.opacity = "1";
+  }, 500); // adjust slowdown here
+});
