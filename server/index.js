@@ -110,8 +110,9 @@ async function saveInvoiceToExcel(data) {
     data.balanceAmount
   ]);
 
-  // Save file
+    // Save file
   await workbook.xlsx.writeFile(filePath);
+  console.log('✅ Excel updated at:', filePath);
 }
 
 
@@ -441,8 +442,27 @@ doc.end();
 // ---------- Test ----------
 app.get('/', (req, res) => res.json({ status: 'Billing Server Running' }));
 
+// 🔹 NEW: Download invoices Excel file
+app.get('/download-invoices', (req, res) => {
+  const filePath = path.join(__dirname, 'invoices.xlsx');
 
+  if (!fs.existsSync(filePath)) {
+    return res
+      .status(404)
+      .json({ success: false, message: 'No invoices file found yet.' });
+  }
+
+  res.download(filePath, 'invoices.xlsx', (err) => {
+    if (err) {
+      console.error('Error sending Excel file:', err);
+      if (!res.headersSent) {
+        res.status(500).json({ success: false, message: 'Error downloading file' });
+      }
+    }
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`✅ Billing server running on PORT ${PORT}`);
 });
+
