@@ -3,7 +3,8 @@ const cors = require('cors');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
-const ExcelJS = require('exceljs');
+const axios = require('axios');
+
 
 
 const app = express();
@@ -62,58 +63,43 @@ function drawEnvelopeIcon(doc, x, y, w = 12, h = 9) {
   doc.moveTo(x, y + h).lineTo(x + w / 2, y + h / 2).lineTo(x + w, y + h).stroke();
   doc.restore();
 }
-async function saveInvoiceToExcel(data) {
-  const filePath = path.join(__dirname, 'invoices.xlsx');
-
-  const workbook = new ExcelJS.Workbook();
-
-  // If file exists, load; else create new
-  if (fs.existsSync(filePath)) {
-    await workbook.xlsx.readFile(filePath);
-  } else {
-    workbook.addWorksheet('Invoices');
+async function saveInvoiceToSheetDB(data) {
+  const sheetdbUrl = process.env.SHEETDB_URL;
+  if (!sheetdbUrl) {
+    console.error('SHEETDB_URL is not set');
+    return;
   }
 
-  const sheet = workbook.getWorksheet('Invoices') || workbook.addWorksheet('Invoices');
+  const products = data.products || [];
 
-  // Add headings if sheet is empty
-  if (sheet.rowCount === 0) {
-    sheet.addRow([
-      'Invoice No', 'Date', 'Customer Name', 'Address', 'Mobile', 'Email',
-      'Products', 'Quantities', 'Prices', 'Total Price',
-      'Delivery Charge', 'Discount', 'Final Amount',
-      'Advance', 'Balance'
-    ]);
+  const payload = {
+    data: {
+      invoice_no: data.inNumber,
+      date: data.invoiceDate,
+      customer_name: data.customerName,
+      address: data.customerAddress,
+      mobile: data.customerMobile,
+      email: data.customerEmail,
+      products: products.map(p => p.name).join(', '),
+      quantities: products.map(p => p.quantity).join(', '),
+      prices: products.map(p => p.price).join(', '),
+      total_price: data.totalPrice,
+      delivery_charge: data.deliveryCharge,
+      discount: data.discount,
+      final_amount: data.finalAmount,
+      advance: data.advanceAmount,
+      balance: data.balanceAmount,
+    },
+  };
+
+  try {
+    await axios.post(sheetdbUrl, payload);
+    console.log('✅ Invoice row stored in Google Sheet via SheetDB');
+  } catch (err) {
+    console.error('❌ Failed to store invoice in SheetDB:', err.message || err);
   }
-
-  // Convert products to text
-  const productNames = data.products.map(p => p.name).join(', ');
-  const qtyList = data.products.map(p => p.quantity).join(', ');
-  const priceList = data.products.map(p => p.price).join(', ');
-
-  // Add actual invoice row
-  sheet.addRow([
-    data.inNumber,
-    data.invoiceDate,
-    data.customerName,
-    data.customerAddress,
-    data.customerMobile,
-    data.customerEmail,
-    productNames,
-    qtyList,
-    priceList,
-    data.totalPrice,
-    data.deliveryCharge,
-    data.discount,
-    data.finalAmount,
-    data.advanceAmount,
-    data.balanceAmount
-  ]);
-
-    // Save file
-  await workbook.xlsx.writeFile(filePath);
-  console.log('✅ Excel updated at:', filePath);
 }
+
 
 
 // ---------- Generate Bill ----------
@@ -200,7 +186,7 @@ app.post('/generate-bill', async (req, res) => {
   const balanceAmount = Math.max(0, finalAmount - advanceAmountNum);
 
 
-  await saveInvoiceToExcel({
+ await saveInvoiceToSheetDB({
   inNumber,
   invoiceDate,
   customerName,
