@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
 
-    <!-- REMOVE VITE FAVICON -->
-    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
-
-    <!-- ADD YOUR CUSTOM LOGO -->
+    <!-- CUSTOM LOGO -->
     <link rel="icon" href="/egroots-logo.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,8 +11,18 @@
   </head>
 
   <body>
+
+    <!-- === PREMIUM LOADER === -->
+    <div id="loader">
+      <div class="logo-wrapper">
+        <img src="/egroots-logo.png" class="loader-logo" alt="EGROOTS" />
+        <div class="loader-text">E-GROOTS Billing System</div>
+      </div>
+    </div>
+
+    <!-- ROOT -->
     <div id="root"></div>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-
