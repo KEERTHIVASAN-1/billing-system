@@ -274,7 +274,9 @@ doc.font('Helvetica').text(inNumber, 480, 95, { width: 110 });
 doc.font('Helvetica-Bold').text('Date of Issue :', 440, 110);
 doc.font('Helvetica').text(invoiceDate, 480, 110, { width: 110 });
 
- doc.text(`GST NO : 33ICSPP2555M1ZS`, 440, 125);
+doc.font('Helvetica-Bold').text('GST NO :', 440, 125);
+doc.font('Helvetica').text('33ICSPP2555M1ZS', 480, 125, { width: 110 });
+
 
 
 
