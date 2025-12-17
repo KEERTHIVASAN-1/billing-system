@@ -268,11 +268,20 @@ doc.font('Helvetica').text('egroots.in@gmail.com', 66, 175, { width: 160 });
   doc.moveTo(430, headerTopY).lineTo(430, headerBottomY).stroke();
 
   // Invoice info
-  doc.font('Helvetica-Bold').text('IN Number :', 440, 95);
-  // Keep value on the same line with adequate width
-  doc.font('Helvetica').text(inNumber, 510, 95, { width: 120, align: 'left' });
-  doc.font('Helvetica-Bold').text('Date of Issue :', 440, 110);
-  doc.font('Helvetica').text(invoiceDate, 510, 110, { width: 120, align: 'left' });
+doc.font('Helvetica-Bold').text('IN Number :', 440, 95);
+doc.font('Helvetica').text(inNumber, 480, 95, { width: 110 });
+
+doc.font('Helvetica-Bold').text('Date of Issue :', 440, 110);
+doc.font('Helvetica').text(invoiceDate, 480, 110, { width: 110 });
+
+ doc.text(`GST NO : 33ICSPP2555M1ZS`, 440, 125);
+
+
+
+
+ 
+
+
 
   // Products section as a single large box with spaced rows (no inner lines)
   const boxLeft = 50;
