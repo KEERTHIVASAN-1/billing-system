@@ -269,13 +269,13 @@ doc.font('Helvetica').text('egroots.in@gmail.com', 66, 175, { width: 160 });
 
   // Invoice info
 doc.font('Helvetica-Bold').text('IN Number :', 440, 95);
-doc.font('Helvetica').text(inNumber, 510, 95, { width: 120, align: 'left' });
+doc.font('Helvetica').text(inNumber, 505, 95, { width: 120, align: 'left' });
 
 doc.font('Helvetica-Bold').text('Date of Issue :', 440, 110);
 doc.font('Helvetica').text(invoiceDate, 510, 110, { width: 120, align: 'left' });
 
 doc.font('Helvetica-Bold').text('GST NO :', 440, 125);
-doc.font('Helvetica').text('33ICSPP2555M1ZS', 490, 125, { width: 120, align: 'left' });
+doc.font('Helvetica').text('33ICSPP2555M1ZS', 485, 125, { width: 120, align: 'left' });
 
 
 
