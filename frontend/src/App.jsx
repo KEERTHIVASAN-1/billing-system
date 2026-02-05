@@ -94,6 +94,49 @@ export default function App() {
     }
   };
 
+  const handleKeyDown = (e, index, field) => {
+    const fields = ["description", "quantity", "price"];
+    const currentFieldIndex = fields.indexOf(field);
+
+    if (e.key === "Enter" || e.key === "ArrowRight") {
+      e.preventDefault();
+      
+      if (currentFieldIndex < fields.length - 1) {
+        // Move to next field in the same row
+        const nextField = fields[currentFieldIndex + 1];
+        const nextInput = document.getElementById(`product-${index}-${nextField}`);
+        if (nextInput) nextInput.focus();
+      } else {
+        // Move to first field of the next row
+        if (index === products.length - 1) {
+          // If it's the last row, add a new row first
+          addProduct();
+          // Wait for render cycle then focus
+          setTimeout(() => {
+            const nextInput = document.getElementById(`product-${index + 1}-description`);
+            if (nextInput) nextInput.focus();
+          }, 0);
+        } else {
+          const nextInput = document.getElementById(`product-${index + 1}-description`);
+          if (nextInput) nextInput.focus();
+        }
+      }
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      
+      if (currentFieldIndex > 0) {
+        // Move to previous field in the same row
+        const prevField = fields[currentFieldIndex - 1];
+        const prevInput = document.getElementById(`product-${index}-${prevField}`);
+        if (prevInput) prevInput.focus();
+      } else if (index > 0) {
+        // Move to last field of the previous row (Price)
+        const prevInput = document.getElementById(`product-${index - 1}-price`);
+        if (prevInput) prevInput.focus();
+      }
+    }
+  };
+
   // ------------------- UI -----------------------
 
   return (
@@ -185,31 +228,37 @@ export default function App() {
                 <tr key={index}>
                   <td>
                     <input
+                      id={`product-${index}-description`}
                       type="text"
                       value={item.description}
                       onChange={(e) =>
                         handleProductChange(index, "description", e.target.value)
                       }
+                      onKeyDown={(e) => handleKeyDown(e, index, "description")}
                     />
                   </td>
 
                   <td>
                     <input
+                      id={`product-${index}-quantity`}
                       type="number"
                       value={item.quantity}
                       onChange={(e) =>
                         handleProductChange(index, "quantity", e.target.value)
                       }
+                      onKeyDown={(e) => handleKeyDown(e, index, "quantity")}
                     />
                   </td>
 
                   <td>
                     <input
+                      id={`product-${index}-price`}
                       type="number"
                       value={item.price}
                       onChange={(e) =>
                         handleProductChange(index, "price", e.target.value)
                       }
+                      onKeyDown={(e) => handleKeyDown(e, index, "price")}
                     />
                   </td>
 

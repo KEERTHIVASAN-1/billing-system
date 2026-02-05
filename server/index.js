@@ -285,43 +285,84 @@ doc.font('Helvetica').text(invoiceDate, 510, 110, { width: 120, align: 'left' })
 
 
 
-  // Products section as a single large box with spaced rows (no inner lines)
+  // Products section with pagination support
   const boxLeft = 50;
-  const boxTop = 200;
+  let currentTop = 200; // Start Y on first page
   const boxWidth = 495;
   const headerH = 25;
   const rowH = 26;
-  const rowsCount = normalizedProducts.length;
-  const boxHeight = Math.max(headerH + rowsCount * rowH + 30, 260); // larger box for cleaner A4 usage
+  const bottomThreshold = 750; // Leave space for margins
+  
+  // Helper to draw table header at a specific Y
+  function drawTableHeader(yPos) {
+      doc.font('Helvetica-Bold').fontSize(10);
+      doc.text('S.NO', boxLeft + 10, yPos + 7);
+      doc.text('PRODUCT LIST', boxLeft + 60, yPos + 7);
+      doc.text('QTY', boxLeft + 270, yPos + 7);
+      doc.text('Price/Unit', boxLeft + 330, yPos + 7);
+      doc.text('TOTAL', boxLeft + 420, yPos + 7);
+      // Horizontal line below header
+      doc.moveTo(boxLeft, yPos + headerH).lineTo(boxLeft + boxWidth, yPos + headerH).stroke();
+  }
 
-  // Outer box
-  doc.rect(boxLeft, boxTop, boxWidth, boxHeight).stroke();
-  // Header labels inside box (no separate header row lines)
-  doc.font('Helvetica-Bold').fontSize(10);
-  doc.text('S.NO', boxLeft + 10, boxTop + 7);
-  doc.text('PRODUCT LIST', boxLeft + 60, boxTop + 7);
-  doc.text('QTY', boxLeft + 270, boxTop + 7);
-  doc.text('Price/Unit', boxLeft + 330, boxTop + 7);
-  doc.text('TOTAL', boxLeft + 420, boxTop + 7);
+  // Draw initial header
+  drawTableHeader(currentTop);
+  
+  let y = currentTop + headerH;
+  let pageStartBoxY = currentTop;
+  let isFirstPage = true;
 
-  doc.moveTo(boxLeft, boxTop + headerH).lineTo(boxLeft + boxWidth, boxTop + headerH).stroke();
-
-  // Rows content with natural spacing (no inner strokes)
-  let y = boxTop + headerH;
   doc.font('Helvetica').fontSize(10);
+  
   normalizedProducts.forEach((p, i) => {
+    if (y + rowH > bottomThreshold) {
+      // Close box on current page
+      doc.rect(boxLeft, pageStartBoxY, boxWidth, y - pageStartBoxY).stroke();
+      
+      doc.addPage();
+      isFirstPage = false;
+      
+      // Reset positions for new page
+      currentTop = 50;
+      pageStartBoxY = currentTop;
+      drawTableHeader(currentTop);
+      y = currentTop + headerH;
+      
+      doc.font('Helvetica').fontSize(10);
+    }
+
     const rowTotal = p.quantity * p.price;
     doc.text(i + 1, boxLeft + 10, y + 6);
     doc.text(p.name, boxLeft + 60, y + 6, { width: 200 });
     doc.text(p.quantity, boxLeft + 275, y + 6);
     doc.text(formatRupee(p.price), boxLeft + 330, y + 6);
     doc.text(formatRupee(rowTotal), boxLeft + 420, y + 6);
+    
     y += rowH;
   });
 
+  // Finish the last page box
+  // Enforce minimum height ONLY if it's the single page (original logic aesthetic)
+  let boxBottomY = y;
+  if (isFirstPage) {
+     const minHeight = 260;
+     const currentHeight = boxBottomY - pageStartBoxY;
+     if (currentHeight < minHeight) {
+       boxBottomY = pageStartBoxY + minHeight;
+     }
+  }
+  
+  doc.rect(boxLeft, pageStartBoxY, boxWidth, boxBottomY - pageStartBoxY).stroke();
+
   // Totals box (place strictly below the products outer box)
   // Add extra breathing room before totals box
-  y = boxTop + boxHeight + 20;
+  y = boxBottomY + 20;
+
+  // Check if Totals box fits on this page
+  if (y + 150 > bottomThreshold + 50) { 
+      doc.addPage();
+      y = 50;
+  }
   doc.rect(345, y, 200, 120).stroke();
   let tY = y + 5;
   const labelX = 355;
